@@ -1,30 +1,6 @@
 pipeline {
     agent {
         node {
-        label 'dockerhost-build-server'
-        }
-    }
-    tools {
-        maven 'maven-3.9.6'
-    }
-    stages {
-        stage('Packaging') {
-            steps {
-                echo 'Packaging..'
-                sh 'mvn clean package'
-            }
-        }
-        stage('Copying jar file') {
-            steps {
-                echo 'Copying war file..'
-                sh 'mv target/*.jar .'
-            }
-        }
-        stage('cleanup') {
-          steps {
-            pipeline {
-    agent {
-        node {
             label 'dockerhost-build-server'
         }
     }
@@ -65,17 +41,3 @@ pipeline {
         }
     }
 }
-          }
-        }
-        stage('build image') {
-          steps {
-            sh 'docker build -t dtellinf/campaign-demo:v1 --label campaign-demo-server .'
-          }
-        }
-        stage('run container') {
-          steps {
-            sh 'docker run -d --name campaign-demo-server --label campaign-demo-server -p 5000:5000 dtellinf/campaign-demo:v1'
-          }
-        }
-    }
-  }
