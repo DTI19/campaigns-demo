@@ -14,10 +14,10 @@ pipeline {
                 sh 'mvn clean package'
             }
         }
-        stage('Copying war file') {
+        stage('Copying jar file') {
             steps {
-                echo 'Copying war file..'
-                sh 'mv target/*.war .'
+                echo 'Copying jar file..'
+                sh 'mv target/*.jar .'  // ← de vuelta a .jar
             }
         }
         stage('cleanup') {
